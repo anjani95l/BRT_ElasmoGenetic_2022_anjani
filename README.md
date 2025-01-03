@@ -3,7 +3,10 @@
 Location<-"C:/Anjanisequencingtrial/C065_SKIMMMINGnew/CO65_20240616/20240616_2345_MN40942_ATQ946_512d893f/"
 library(tidyverse)
 
-# make a windows compatible file path"
+# Species ID workflow with ONT amplicon data Using R
+This pipeline is designed for processing and analyzing Oxford Nanopore Technologies (ONT) MinION DNA-barcoding sequence data for species identification. Assumes barcoded reads sequenced on a Flongle flow cell.
+
+make a windows compatible file path"
 Location_win<-str_replace_all(Location,"/","\\\\")
 Location_linux<-str_sub(Location,4,str_length(Location))
 
