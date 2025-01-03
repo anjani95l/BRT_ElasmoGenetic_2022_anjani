@@ -1,10 +1,12 @@
 # BRT_ElasmoGenetic_2022_anjani
-#location of the fast5 files eg C:/Anjanisequencingtrial/Elasmo01/1to26/20240404_1534_MN40942_ATH520_4c3c63c3
-Location<-"C:/Anjanisequencingtrial/C065_SKIMMMINGnew/CO65_20240616/20240616_2345_MN40942_ATQ946_512d893f/"
-library(tidyverse)
-
 # Species ID workflow with ONT amplicon data Using R
 This pipeline is designed for processing and analyzing Oxford Nanopore Technologies (ONT) MinION DNA-barcoding sequence data for species identification. Assumes barcoded reads sequenced on a Flongle flow cell.
+
+#location of the fast5 files 
+
+eg C:/Anjanisequencingtrial/Elasmo01/1to26/20240404_1534_MN40942_ATH520_4c3c63c3
+Location<-"C:/Anjanisequencingtrial/C065_SKIMMMINGnew/CO65_20240616/20240616_2345_MN40942_ATQ946_512d893f/"
+library(tidyverse)
 
 # Input files
 make a windows compatible file path
