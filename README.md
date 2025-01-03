@@ -1,1 +1,72 @@
 # BRT_ElasmoGenetic_2022_anjani
+#location of the fast5 files eg C:/Anjanisequencingtrial/Elasmo01/1to26/20240404_1534_MN40942_ATH520_4c3c63c3
+Location<-"C:/Anjanisequencingtrial/C065_SKIMMMINGnew/CO65_20240616/20240616_2345_MN40942_ATQ946_512d893f/"
+library(tidyverse)
+
+# make a windows compatible file path"
+Location_win<-str_replace_all(Location,"/","\\\\")
+Location_linux<-str_sub(Location,4,str_length(Location))
+
+# this will run guppy base caller and dump the outputs into the fastq file
+input_path<-paste0('"',Location,'/fast5"')
+save_path<-paste0('"',Location,'/fastq"')
+args_basecall<-paste0('"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_basecaller.exe"',' --input_path ',input_path,' --save_path ',save_path,' -x auto --flowcell FLO-FLG114 --kit SQK-RBK114-24')
+system('cmd.exe',input = args_basecall,invisible = F)
+#location of the fast5 files eg C:/Anjanisequencingtrial/Elasmo01/1to26/20240404_1534_MN40942_ATH520_4c3c63c3
+Location<-"C:/Anjanisequencingtrial/C065_20240706/C065GENOMESKINMMING/20240706_1821_MN40942_ATR438_35422216/"
+library(tidyverse)
+
+# make a windows compatible file path"
+Location_win<-str_replace_all(Location,"/","\\\\")
+Location_linux<-str_sub(Location,4,str_length(Location))
+
+# this will run guppy base caller and dump the outputs into the fastq file
+input_path<-paste0('"',Location,'/fast5"')
+save_path<-paste0('"',Location,'/fastq"')
+args_basecall<-paste0('"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_basecaller.exe"',' --input_path ',input_path,' --save_path ',save_path,' -x auto --flowcell FLO-FLG114 --kit SQK-RBK114-24')
+system('cmd.exe',input = args_basecall,invisible = F)
+
+# catting the output
+args_cat= paste0('type "',Location_win,'\\fastq\\pass\\*.fastq" > "',Location_win,'\\passed_reads\\Merged.fastq"')
+dir.create(paste0(Location,"/passed_reads"))
+system('cmd.exe', input=args_cat)
+#location of the fast5 files eg C:/Anjanisequencingtrial/Elasmo01/1to26/20240404_1534_MN40942_ATH520_4c3c63c3
+Location<-"C:/Anjanisequencingtrial/C059Genome_Skimming/c05920240707/20240707_1530_MN40942_ATR415_5edbe28d/"
+library(tidyverse)
+
+# make a windows compatible file path"
+Location_win<-str_replace_all(Location,"/","\\\\")
+Location_linux<-str_sub(Location,4,str_length(Location))
+
+# this will run guppy base caller and dump the outputs into the fastq file
+input_path<-paste0('"',Location,'/fast5"')
+save_path<-paste0('"',Location,'/fastq"')
+args_basecall<-paste0('"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_basecaller.exe"',' --input_path ',input_path,' --save_path ',save_path,' -x auto --flowcell FLO-FLG114 --kit SQK-RBK114-24')
+system('cmd.exe',input = args_basecall,invisible = F)
+
+# catting the output
+args_cat= paste0('type "',Location_win,'\\fastq\\pass\\*.fastq" > "',Location_win,'\\passed_reads\\Merged.fastq"')
+dir.create(paste0(Location,"/passed_reads"))
+system('cmd.exe', input=args_cat)
+#location of the fast5 files eg C:/Anjanisequencingtrial/Elasmo01/1to26/20240404_1534_MN40942_ATH520_4c3c63c3
+Location<-"C:/Anjanisequencingtrial/C059Genome_Skimming/c05920240707/20240707_1530_MN40942_ATR415_5edbe28d/"
+library(tidyverse)
+
+# make a windows compatible file path"
+Location_win<-str_replace_all(Location,"/","\\\\")
+Location_linux<-str_sub(Location,4,str_length(Location))
+
+# this will run guppy base caller and dump the outputs into the fastq file
+input_path<-paste0('"',Location,'/fast5"')
+save_path<-paste0('"',Location,'/fastq"')
+args_basecall<-paste0('"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_basecaller.exe"',' --input_path ',input_path,' --save_path ',save_path,' -x auto --flowcell FLO-FLG114 --kit SQK-RBK114-24')
+system('cmd.exe',input = args_basecall,invisible = F)
+
+# catting the output
+args_cat= paste0('type "',Location_win,'\\fastq\\pass\\*.fastq" > "',Location_win,'\\passed_reads\\Merged.fastq"')
+dir.create(paste0(Location,"/passed_reads"))
+system('cmd.exe', input=args_cat)
+
+# barcoding the output
+args_barcode<-paste0('"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_barcoder.exe" -i "',Location_win,'\\passed_reads" -s "',Location_win,'\\demultiplexed" --barcode_kits SQK-RBK114-24 --records_per_fastq 0 -x auto')
+system('cmd.exe', input=args_barcode)
