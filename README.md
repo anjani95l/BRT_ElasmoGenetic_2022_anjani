@@ -41,6 +41,7 @@ Location_linux<-str_sub(Location,4,str_length(Location))
 
 # Adaptor trimming and demultiplexing
 demultiplex our data according to barcode and trim barcodes of sequencing reads. The barcode kit is specified in the script, in this case: SQK-RBK114-24
+
 args_barcode<-paste0('"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_barcoder.exe" -i "',Location_win,'\\passed_reads" -s "',Location_win,'\\demultiplexed" --barcode_kits SQK-RBK114-24 --records_per_fastq 0 -x auto')
 system('cmd.exe', input=args_barcode)
 
