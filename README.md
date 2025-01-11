@@ -16,6 +16,24 @@ make a windows compatible file path
 Location_win<-str_replace_all(Location,"/","\\\\")
 Location_linux<-str_sub(Location,4,str_length(Location))
 
+# 2) Basecalling with Guppy on Windows
+
+input_path <- paste0('"', Location, "/fast5\"")  # In double quotes for cmd.exe
+save_path  <- paste0('"', Location, "/fastq\"")
+
+# Construct the command to basecall the FAST5 data
+args_basecall <- paste0(
+  '"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_basecaller.exe"',
+  " --input_path ", input_path,
+  " --save_path ", save_path,
+  " -x auto",                   # auto-detect GPU or CPU
+  " --flowcell FLO-FLG114",     # Adjust to your flow cell
+  " --kit SQK-RBK114-24"        # Adjust to your barcoding kit
+)
+
+# Execute the basecalling
+system("cmd.exe", input = args_basecall, invisible = FALSE)
+
 # Basecalling 
 This will run guppy base caller and dump the outputs into the fastq file
 
