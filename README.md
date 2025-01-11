@@ -72,7 +72,7 @@ demultiplex our data according to barcode and trim barcodes of sequencing reads.
 
 args_barcode <- paste0(
 
-  '"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_barcoder.exe"',
+   '"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_barcoder.exe"',
   
   ' -i "', Location_win, '\\passed_reads"',
   
