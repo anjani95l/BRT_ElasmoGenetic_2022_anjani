@@ -5,7 +5,9 @@ This pipeline is designed for processing and analyzing Oxford Nanopore Technolog
 # 1) Define directories
 
  Example Windows paths (update to match your environment):
+ 
 fast5_dir  <- "C:/Users/user1/Desktop/minION_workflow/data/fast5"
+
 out_dir    <- "C:/Users/user1/Desktop/minION_workflow/data/basecalled
 
 # Input files
