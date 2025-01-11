@@ -45,32 +45,83 @@ Execute the basecalling
 
 system("cmd.exe", input = args_basecall, invisible = FALSE)
 
+# 3) Concatenate files
 
+Concatenate all 'pass' reads into a single file
 
+We'll create a new folder "passed_reads" and merge into "Merged.fastq".
 
-# Concatenate files
-catting the output
+dir.create(file.path(Location, "passed_reads"), showWarnings = FALSE)
 
-args_cat= paste0('type "',Location_win,'\\fastq\\pass\\*.fastq" > "',Location_win,'\\passed_reads\\Merged.fastq"')
-dir.create(paste0(Location,"/passed_reads"))
-system('cmd.exe', input=args_cat)
-#location of the fast5 files eg C:/Anjanisequencingtrial/Elasmo01/1to26/20240404_1534_MN40942_ATH520_4c3c63c3
-Location<-"C:/Anjanisequencingtrial/C059Genome_Skimming/c05920240707/20240707_1530_MN40942_ATR415_5edbe28d/"
-library(tidyverse)
+Use Windows 'type' command to merge all fastq files in pass/
+args_cat <- paste0(
+  'type "', Location_win, '\\fastq\\pass\\*.fastq" > "',
+  Location_win, '\\passed_reads\\Merged.fastq"'
+)
 
-make a windows compatible file path"
+# Run the concatenation
+system("cmd.exe", input = args_cat)
+
+# make a windows compatible file path"
 Location_win<-str_replace_all(Location,"/","\\\\")
 Location_linux<-str_sub(Location,4,str_length(Location))
 
 
-# Adaptor trimming and demultiplexing
+# 4) Adaptor trimming and demultiplexing
 demultiplex our data according to barcode and trim barcodes of sequencing reads. The barcode kit is specified in the script, in this case: SQK-RBK114-24
 
-args_barcode<-paste0('"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_barcoder.exe" -i "',Location_win,'\\passed_reads" -s "',Location_win,'\\demultiplexed" --barcode_kits SQK-RBK114-24 --records_per_fastq 0 -x auto')
-system('cmd.exe', input=args_barcode)
+args_barcode <- paste0(
 
-# Filtering
+  '"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_barcoder.exe"',
+  
+  ' -i "', Location_win, '\\passed_reads"',
+  
+  ' -s "', Location_win, '\\demultiplexed"',
+  
+  ' --barcode_kits SQK-RBK114-24',
+  
+  ' --records_per_fastq 0',
+  
+  ' -x auto'
+)
+
+system("cmd.exe", input = args_barcode, invisible = FALSE)
+
+
+# 5) Filtering
+
 filter our fastq files for quality and read length. This step is optional as NGSpeciesID performs well without filtered reads.
+Gunzip step
+
+  Note: Windows does not have 'gunzip' natively; you must have it installed  and accessible in your PATH. Otherwise, adapt to 7-Zip or another tool.
+  
+   gunzip_cmd <- paste0('gunzip "', TARGET_DIR_WIN, '\\', f, '\\*.*"')
+   
+  If your files are specifically named *.fastq.gz, then do:
+  
+  gunzip_cmd <- paste0('gunzip "', TARGET_DIR_WIN, '\\', f, '\\*.fastq.gz"')
+
+  Execute gunzip (ignore warnings if files are already unzipped)
+  
+  system("cmd.exe", input = gunzip_cmd, invisible = FALSE)
+
+  We apply -q 7 (quality filter), -l 100 (min length 100), and --maxlength 750
+  
+  using input redirection (<) and output redirection (>) just like your Bash script.
+  
+  nanoFilt_cmd <- paste0(
+  
+    '"', nanoFilt_path, '" ', 
+    
+    '-q 7 -l 100 --maxlength 750 ',
+    
+    '< "', TARGET_DIR_WIN, '\\', f, '\\*" ',
+    
+    '> "', TARGET_DIR_WIN, '\\', f, '\\', f, '_filtered.fastq"'
+  )
+
+  Execute NanoFilt
+  system("cmd.exe", input = nanoFilt_cmd, invisible = FALSE)
 
 
 # NGSpeciesID
