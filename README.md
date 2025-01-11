@@ -118,10 +118,72 @@ Gunzip step
     '< "', TARGET_DIR_WIN, '\\', f, '\\*" ',
     
     '> "', TARGET_DIR_WIN, '\\', f, '\\', f, '_filtered.fastq"'
+    
   )
 
   Execute NanoFilt
   system("cmd.exe", input = nanoFilt_cmd, invisible = FALSE)
 
 
-# NGSpeciesID
+# 6) NGSpeciesID
+
+Define directories (adjust these paths for your setup on Windows)
+###############################################################################
+TARGET_DIR <- "C:/Users/genetics/Desktop/minION_species_ID-master/data/out/demultiplexed"
+OUT_DIR    <- "C:/Users/genetics/Desktop/minION_species_ID-master/data/out/ngspecies_id"
+PRIMER_DIR <- "C:/Users/genetics/Desktop/demultiplexed/Primer2.txt"  # Not directly used below
+
+# Convert to backslashes for Windows commands
+TARGET_DIR_WIN <- str_replace_all(TARGET_DIR, "/", "\\\\")
+OUT_DIR_WIN    <- str_replace_all(OUT_DIR,  "/", "\\\\")
+
+###############################################################################
+# 2) Define barcodes
+###############################################################################
+barcodes <- sprintf("barcode%02d", 1:24) 
+# This generates "barcode01", "barcode02", ..., "barcode24"
+
+###############################################################################
+# 3) Create output directories for each barcode
+###############################################################################
+for (bc in barcodes) {
+  dir.create(file.path(OUT_DIR, bc), showWarnings = FALSE, recursive = TRUE)
+}
+
+###############################################################################
+# 4) Path to NGSpeciesID
+###############################################################################
+# If NGSpeciesID is already on your PATH (e.g., you started R in a conda prompt),
+# you can just use "NGSpeciesID".
+# Otherwise, specify the full path, e.g.:
+# ngspeciesid_exe <- "C:/Users/anjani/miniconda3/envs/NGSpeciesID/Scripts/NGSpeciesID.exe"
+ngspeciesid_exe <- "NGSpeciesID"  # assume it's in PATH
+
+###############################################################################
+# 5) Run NGSpeciesID for each barcode
+###############################################################################
+for (bc in barcodes) {
+  # Show which FASTQ files we are processing (mimics `echo $TARGET_DIR/$i/*`)
+  message("Processing: ", file.path(TARGET_DIR, bc, "*"))
+  
+  # Construct the command, pointing to the filtered FASTQ
+  fastq_pattern <- paste0('"', file.path(TARGET_DIR_WIN, bc, "*_filtered.fastq"), '"')
+  outfolder     <- paste0('"', file.path(OUT_DIR_WIN, bc), '"')
+  
+  args_NGSpeciesID <- paste0(
+    '"', ngspeciesid_exe, '" ',
+    "--ont ",
+    "--fastq ", fastq_pattern, " ",
+    "--outfolder ", outfolder, " ",
+    "--consensus ",
+    "--m 655 ",
+    "--s 100 ",
+    "--racon ",
+    "--racon_iter 3 ",
+    "--abundance_ratio 0.05 "
+    # add other flags as needed
+  )
+
+  # Run NGSpeciesID through cmd.exe
+  system("cmd.exe", input = args_NGSpeciesID, invisible = FALSE)
+}
