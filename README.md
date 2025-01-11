@@ -18,32 +18,34 @@ Location_linux<-str_sub(Location,4,str_length(Location))
 
 # 2) Basecalling with Guppy on Windows
 
+This will run guppy base caller and dump the outputs into the fastq file
+
 input_path <- paste0('"', Location, "/fast5\"")  # In double quotes for cmd.exe
+
 save_path  <- paste0('"', Location, "/fastq\"")
 
-# Construct the command to basecall the FAST5 data
+Construct the command to basecall the FAST5 data
+
 args_basecall <- paste0(
+
   '"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_basecaller.exe"',
+  
   " --input_path ", input_path,
+  
   " --save_path ", save_path,
+  
   " -x auto",                   # auto-detect GPU or CPU
+  
   " --flowcell FLO-FLG114",     # Adjust to your flow cell
+  
   " --kit SQK-RBK114-24"        # Adjust to your barcoding kit
 )
 
-# Execute the basecalling
+Execute the basecalling
+
 system("cmd.exe", input = args_basecall, invisible = FALSE)
 
-# Basecalling 
-This will run guppy base caller and dump the outputs into the fastq file
 
-input_path<-paste0('"',Location,'/fast5"')
-save_path<-paste0('"',Location,'/fastq"')
-args_basecall<-paste0('"C:/Program Files/OxfordNanopore/ont-guppy/bin/guppy_basecaller.exe"',' --input_path ',input_path,' --save_path ',save_path,' -x auto --flowcell FLO-FLG114 --kit SQK-RBK114-24')
-system('cmd.exe',input = args_basecall,invisible = F)
-#location of the fast5 files eg C:/Anjanisequencingtrial/Elasmo01/1to26/20240404_1534_MN40942_ATH520_4c3c63c3
-Location<-"C:/Anjanisequencingtrial/C065_20240706/C065GENOMESKINMMING/20240706_1821_MN40942_ATR438_35422216/"
-library(tidyverse)
 
 
 # Concatenate files
